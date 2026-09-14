@@ -12,7 +12,12 @@ LOCK = threading.Lock()
 
 def now(): return datetime.now(timezone.utc).isoformat()
 def conn():
-    c = sqlite3.connect(DB_PATH); c.row_factory = sqlite3.Row; return c
+    global DB_PATH
+    try:
+        c = sqlite3.connect(DB_PATH); c.row_factory = sqlite3.Row; return c
+    except sqlite3.OperationalError:
+        DB_PATH = Path("/tmp") / "khet_ai.db"
+        c = sqlite3.connect(DB_PATH); c.row_factory = sqlite3.Row; return c
 def rows(c): return [dict(x) for x in c.fetchall()]
 
 def init_db():

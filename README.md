@@ -1,13 +1,32 @@
-[README.md](https://github.com/user-attachments/files/32191085/README.md)
 # Khet AI MVP
 
 Run `python3 app.py`, then open `http://localhost:8000`. The application serves the dashboard and its API from one origin.
 
-## Vercel deployment
+## Deployment Options
 
-`vercel.json` makes Vercel serve `outputs/index.html` at the deployment root, preventing a `404 NOT_FOUND` for `/`. In Vercel, set the Framework Preset to **Other** and leave the Build Command empty, then redeploy.
+### Option 1: Render (Recommended for Full Backend + Frontend)
+1. Push this repository to GitHub / GitLab.
+2. Log into [Render](https://render.com) and click **New +** -> **Web Service**.
+3. Select your repository.
+4. Render will automatically detect `render.yaml` or you can manually set:
+   - **Environment**: Python
+   - **Build Command**: (leave empty)
+   - **Start Command**: `python3 app.py`
+5. Click **Create Web Service**. Your persistent API & dashboard UI will be live!
 
-This Vercel configuration deploys the dashboard. The included `app.py` uses a local SQLite file and a long-running local HTTP server, neither of which is suitable for production Vercel persistence. Keep the dashboard on Vercel only for a UI preview, or move the API to a persistent service/database before enabling real farm data and approval actions. A production Vercel backend needs a managed database (for example Vercel Postgres, Neon, or Supabase), environment variables for provider credentials, and Vercel Functions or a FastAPI service—not the local `app.py` process.
+### Option 2: Vercel (Static Dashboard & Serverless API)
+1. Push this repository to GitHub.
+2. Import the project in [Vercel](https://vercel.com).
+3. Vercel automatically reads `vercel.json` and routes `/` to `outputs/index.html` and `/api/*` to `api/index.py`.
+
+### Option 3: Docker / Container Platforms (Railway, Cloud Run, AWS)
+Build and run using Docker:
+```bash
+docker build -t khetai .
+docker run -p 8000:8000 khetai
+```
+
+---
 
 ## What is implemented
 

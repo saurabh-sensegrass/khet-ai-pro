@@ -1,0 +1,2 @@
+# Khet AI MVP uses Python standard library only (python >= 3.8)
+# No external pip dependencies required.
